@@ -13,7 +13,7 @@
     {
       "name": "Dilbert66",
       "maintainer": true
-    },
+    }
   ],
   "frameworks": "*",
   "platforms": "*"
