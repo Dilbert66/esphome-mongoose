@@ -1,0 +1,19 @@
+"name": "EspHome-Mongoose",
+  "version": "1.0.0",
+  "description": "Mongoose.ws Web library adapted for use with esphome"
+  "keywords": "tls,http,mqtt,ws",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/dilbert66/esphome-mongoose.git"
+  },
+  "authors":
+  [
+    {
+      "name": "Dilbert66",
+      "maintainer": true
+    },
+  ],
+  "frameworks": "*",
+  "platforms": "*"
+}
