@@ -1,3 +1,4 @@
+{
 "name": "EspHome-Mongoose",
   "version": "1.0.0",
   "description": "Mongoose.ws Web library adapted for use with esphome",
