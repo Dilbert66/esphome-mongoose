@@ -2950,11 +2950,7 @@ int mg_iobuf_resize(struct mg_iobuf *io, size_t new_size) {
   } else if (new_size != io->size) {
     // NOTE(lsm): do not use realloc here. Use calloc/free only, to ease the
     // porting to some obscure platforms like FreeRTOS
-    //void *p = calloc(1, new_size);
-    //void *p = realloc(1,new_size);
-    void *p = malloc(new_size);
-    if (p)
-        memset(p,0,new_size);
+    void *p = calloc(1, new_size);
     if (p != NULL) {
       size_t len = new_size < io->len ? new_size : io->len;
       if (len > 0 && io->buf != NULL) memmove(p, io->buf, len);
