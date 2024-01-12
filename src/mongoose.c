@@ -2960,6 +2960,10 @@ int mg_iobuf_resize(struct mg_iobuf *io, size_t new_size) {
       io->size = new_size;
     } else {
       ok = 0;
+ #if defined(ESP32)       
+      UBaseType_t uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
+      MG_ERROR(("\nTaskupdates free memory: %5d\n", (uint16_t) uxHighWaterMark));   
+ #endif
       MG_ERROR(("%lld->%lld", (uint64_t) io->size, (uint64_t) new_size));
     }
   }
