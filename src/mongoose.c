@@ -2962,7 +2962,7 @@ int mg_iobuf_resize(struct mg_iobuf *io, size_t new_size) {
       ok = 0;
  #if defined(ESP32)       
       UBaseType_t uxHighWaterMark = uxTaskGetStackHighWaterMark(NULL);
-      MG_ERROR(("\nFree memory: %5d,freeheap: %5d,minheap: %5d,maxfree:%5d\n", (uint16_t) uxHighWaterMark,esp_get_free_heap_size(),esp_get_minimum_free_heap_size(),heap_caps_get_largest_free_block()));   
+      MG_ERROR(("\nFree memory: %5d,freeheap: %5d,minheap: %5d,maxfree:%5d\n", (uint16_t) uxHighWaterMark,esp_get_free_heap_size(),esp_get_minimum_free_heap_size(),heap_caps_get_largest_free_block(8)));   
  #endif
       MG_ERROR(("%lld->%lld", (uint64_t) io->size, (uint64_t) new_size));
     }
