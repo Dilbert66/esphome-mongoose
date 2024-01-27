@@ -65,7 +65,7 @@ extern "C" {
 #define MG_ARCH MG_ARCH_RTTHREAD
 #endif
 #endif  // !defined(MG_ARCH)
-
+#include "mongoose_addon.h"
 #if !defined(MG_ARCH) || (MG_ARCH == MG_ARCH_CUSTOM)
 #include "mongoose_custom.h"  // keep this include
 #endif
