@@ -5649,7 +5649,8 @@ bool mg_send(struct mg_connection *c, const void *buf, size_t len) {
     tx_udp(ifp, s->mac, ifp->ip, c->loc.port, rem_ip, c->rem.port, buf, len);
     res = true;
   } else {
-    res = mg_iobuf_add(&c->send, c->send.len, buf, len);
+     res = mg_iobuf_add(&c->send, c->send.len, buf, len);
+        MG_ERROR(("in mg_send %d",res));  
   }
   return res;
 }
@@ -9595,11 +9596,8 @@ static void mg_tls_encrypt(struct mg_connection *c, const uint8_t *msg,
   nonce[11] ^= (uint8_t) ((tls->sseq) & 255U);
 
   gcm_initialize();
-  MG_ERROR((" before add"));
   mg_iobuf_add(wio, wio->len, hdr, sizeof(hdr));
-  MG_ERROR(("after add"));
   int ok=mg_iobuf_resize(wio, wio->len + encsz);
-  if (ok) {
   outmsg = wio->buf + wio->len;
   tag = wio->buf + wio->len + msgsz + 1;
   memmove(outmsg, msg, msgsz);
@@ -9609,7 +9607,6 @@ static void mg_tls_encrypt(struct mg_connection *c, const uint8_t *msg,
                   associated_data, sizeof(associated_data), tag, 16);
   wio->len += encsz;
   tls->sseq++;
-  }
 }
 
 // read an encrypted message, decrypt it into read buffer (AES GCM)
