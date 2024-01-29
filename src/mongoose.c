@@ -3310,6 +3310,8 @@ int mg_iobuf_resize(struct mg_iobuf *io, size_t new_size) {
       ok = 0;
       MG_ERROR(("%lld->%lld", (uint64_t) io->size, (uint64_t) new_size));
     }
+   MG_ERROR(("Resizing: %lld->%lld", (uint64_t) io->size, (uint64_t) new_size));    
+    MG_ERROR(("\nfreeheap: %5d,minheap: %5d,maxfree:%5d\n", esp_get_free_heap_size(),esp_get_minimum_free_heap_size(),heap_caps_get_largest_free_block(8)));      
   }
   return ok;
 }
