@@ -3326,8 +3326,9 @@ int mg_iobuf_init(struct mg_iobuf *io, size_t size, size_t align) {
 size_t mg_iobuf_add(struct mg_iobuf *io, size_t ofs, const void *buf,
                     size_t len) {
   size_t new_size = roundup(io->len + len, io->align);
-  MG_ERROR(("in iobuf add %d,%d",new_size,io->size));
   mg_iobuf_resize(io, new_size);      // Attempt to resize
+  if (new_size != io->size) 
+      MG_ERROR(("in iobuf add - failure"));
   if (new_size != io->size) len = 0;  // Resize failure, append nothing
   if (ofs < io->len) memmove(io->buf + ofs + len, io->buf + ofs, io->len - ofs);
   if (buf != NULL) memmove(io->buf + ofs, buf, len);
@@ -4158,7 +4159,7 @@ static void mg_send_mqtt_properties(struct mg_connection *c,
   uint8_t buf_v[4] = {0, 0, 0, 0};
   uint8_t buf[4] = {0, 0, 0, 0};
   size_t i, len = encode_varint(buf, total_size);
-
+  
   mg_send(c, buf, (size_t) len);
   for (i = 0; i < nprops; i++) {
     mg_send(c, &props[i].id, sizeof(props[i].id));
@@ -7175,7 +7176,6 @@ bool mg_send(struct mg_connection *c, const void *buf, size_t len) {
     iolog(c, (char *) buf, n, false);
     return n > 0;
   } else {
-      MG_ERROR(("in mg-send %d,%d",c->send.len,len));
     return mg_iobuf_add(&c->send, c->send.len, buf, len);
   }
 }
@@ -9598,7 +9598,7 @@ static void mg_tls_encrypt(struct mg_connection *c, const uint8_t *msg,
 
   gcm_initialize();
   mg_iobuf_add(wio, wio->len, hdr, sizeof(hdr));
-  int ok=mg_iobuf_resize(wio, wio->len + encsz);
+  mg_iobuf_resize(wio, wio->len + encsz);
   outmsg = wio->buf + wio->len;
   tag = wio->buf + wio->len + msgsz + 1;
   memmove(outmsg, msg, msgsz);
