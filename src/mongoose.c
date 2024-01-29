@@ -3326,7 +3326,7 @@ int mg_iobuf_init(struct mg_iobuf *io, size_t size, size_t align) {
 size_t mg_iobuf_add(struct mg_iobuf *io, size_t ofs, const void *buf,
                     size_t len) {
   size_t new_size = roundup(io->len + len, io->align);
-  MG_ERROR(("in iobuf add"));
+  MG_ERROR(("in iobuf add %d,%d",new_size,io->size));
   mg_iobuf_resize(io, new_size);      // Attempt to resize
   if (new_size != io->size) len = 0;  // Resize failure, append nothing
   if (ofs < io->len) memmove(io->buf + ofs + len, io->buf + ofs, io->len - ofs);
@@ -7175,6 +7175,7 @@ bool mg_send(struct mg_connection *c, const void *buf, size_t len) {
     iolog(c, (char *) buf, n, false);
     return n > 0;
   } else {
+      MG_ERROR(("in mg-send %d,%d",c->send.len,len));
     return mg_iobuf_add(&c->send, c->send.len, buf, len);
   }
 }
