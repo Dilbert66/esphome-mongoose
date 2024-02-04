@@ -3310,8 +3310,7 @@ int mg_iobuf_resize(struct mg_iobuf *io, size_t new_size) {
       ok = 0;
       MG_ERROR(("%lld->%lld", (uint64_t) io->size, (uint64_t) new_size));
     }
-   MG_ERROR(("Resizing: %lld->%lld", (uint64_t) io->size, (uint64_t) new_size));    
-    MG_ERROR(("\nfreeheap: %5d,minheap: %5d,maxfree:%5d\n", esp_get_free_heap_size(),esp_get_minimum_free_heap_size(),heap_caps_get_largest_free_block(8)));      
+    
   }
   return ok;
 }
@@ -3327,8 +3326,6 @@ size_t mg_iobuf_add(struct mg_iobuf *io, size_t ofs, const void *buf,
                     size_t len) {
   size_t new_size = roundup(io->len + len, io->align);
   mg_iobuf_resize(io, new_size);      // Attempt to resize
-  if (new_size != io->size) 
-      MG_ERROR(("in iobuf add - failure"));
   if (new_size != io->size) len = 0;  // Resize failure, append nothing
   if (ofs < io->len) memmove(io->buf + ofs + len, io->buf + ofs, io->len - ofs);
   if (buf != NULL) memmove(io->buf + ofs, buf, len);

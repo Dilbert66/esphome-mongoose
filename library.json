@@ -1,8 +1,8 @@
 {
 "name": "EspHome-Mongoose",
-  "version": "7.12.6",
+  "version": "7.12.1",
   "description": "Mongoose.ws Web library adapted for use with esphome",
-  "keywords": "tls,http,mqtt,ws",
+  "keywords": "tls,http,mqtt,ws,event",
   "repository":
   {
     "type": "git",
